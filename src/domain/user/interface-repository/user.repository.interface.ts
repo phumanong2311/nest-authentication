@@ -16,5 +16,4 @@ export interface IUserRepository {
     user: Partial<DomainUserEntity>,
   ): Promise<DomainUserEntity>;
   delete(user: DomainUserEntity): Promise<void>;
-  1(): void;
 }
