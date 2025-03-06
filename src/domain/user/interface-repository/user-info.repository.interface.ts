@@ -1,8 +1,8 @@
-import { UserInfo } from "../entities";
+import { DomainUserInfoEntity } from '../domain-entities';
 
 export interface IUserInfoRepository {
-  findByUserId(userId: string): Promise<UserInfo>;
-  createAndSave(userInfo: UserInfo): Promise<UserInfo>;
-  update(userInfo: UserInfo): Promise<UserInfo>;
+  findByUserId(userId: string): Promise<DomainUserInfoEntity>;
+  createAndSave(userInfo: DomainUserInfoEntity): Promise<DomainUserInfoEntity>;
+  update(userInfo: DomainUserInfoEntity): Promise<DomainUserInfoEntity>;
   delete(id: string): Promise<void>;
 }

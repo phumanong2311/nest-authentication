@@ -1,8 +1,8 @@
+import { DomainRoleEntity } from '../domain-entities';
 import { CreateRoleDto } from '../dto/request';
-import { Role } from '../entities';
 
 export interface IRoleRepository {
-  getRolesByScope(scope: string): Promise<Role[]>;
-  getAll(): Promise<Role[]>;
-  createAndSave(data: CreateRoleDto): Promise<Role>;
+  getRolesByScope(scope: string): Promise<DomainRoleEntity[]>;
+  getAll(): Promise<DomainRoleEntity[]>;
+  createAndSave(data: CreateRoleDto): Promise<DomainRoleEntity>;
 }
