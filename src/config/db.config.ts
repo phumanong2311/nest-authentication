@@ -1,9 +1,9 @@
 import { MikroOrmModuleSyncOptions } from '@mikro-orm/nestjs';
 import { TsMorphMetadataProvider } from '@mikro-orm/reflection';
 import { resolve } from 'path';
-import { Role, User } from '../entities';
+import { Role, User } from 'src/infra/postgres/entities';
 
-export const config: MikroOrmModuleSyncOptions = {
+export const dbConfig: MikroOrmModuleSyncOptions = {
   dbName: 'warehouse',
   user: 'warehouse',
   password: 'warehouse',

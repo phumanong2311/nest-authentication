@@ -1,11 +1,19 @@
 import { MikroOrmModule } from '@mikro-orm/nestjs';
 import { Module } from '@nestjs/common';
-import { Role, User } from '../entities';
+import { ConfigModule } from '@nestjs/config';
+import { validationSchema } from '../../../config/config.schema';
 import { BaseRepository, UserRepository } from '../repositories';
-import config from './mikro-orm.config';
+import { config } from './mikro-orm.config';
 
 @Module({
-  imports: [MikroOrmModule.forRoot(config), MikroOrmModule.forFeature([User, Role])],
+  imports: [
+    ConfigModule.forRoot({
+      isGlobal: true,
+      validationSchema,
+    }),
+    ,
+    MikroOrmModule.forRootAsync(config),
+  ],
   providers: [UserRepository, BaseRepository],
   exports: [MikroOrmModule, UserRepository, BaseRepository],
 })
