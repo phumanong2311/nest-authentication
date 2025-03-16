@@ -8,9 +8,10 @@ import {
   Request,
   UseGuards,
 } from '@nestjs/common';
-import * as useragent from 'express-useragent';
 import * as requestIp from 'request-ip';
-import { AuthService } from '../service/auth.service';
+import { UserService } from 'src/domain/user/services/user.service';
+import { CurrentUserParam } from 'src/share/decorators/current-user-param.decorator';
+import { AuthGuard, RedisGuard } from 'src/share/guards';
 import {
   LoginDto,
   RegisterDto,
@@ -19,11 +20,8 @@ import {
   VerifyInviteEmailDto,
   VerifyRegisterEmailDto,
 } from '../dto/request';
-import { CurrentUserParam } from 'src/share/decorators/current-user-param.decorator';
-import { AuthGuard, RedisGuard } from 'src/share/guards';
-import { UserService } from 'src/domain/user/services/user.service';
 import { InviteUserDto } from '../dto/request/invite.dto';
-import { User } from 'src/modules/user-management/domain/entities';
+import { AuthService } from '../service/auth.service';
 
 @Controller()
 export class AuthController {
