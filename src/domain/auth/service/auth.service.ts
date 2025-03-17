@@ -5,7 +5,6 @@ import { sendMail } from 'src/infra/email/nodemailler';
 import { renderTemplate } from 'src/infra/handlebars';
 import { TemplateEmail } from 'src/infra/handlebars/type';
 import { RedisService } from 'src/infra/redis/redis.service';
-import { User } from 'src/modules/user-management/domain/entities';
 import { UserService } from 'src/domain/user/services/user.service';
 import { Email } from 'src/share/dto/value-object';
 import { EmailRateLimiterService } from 'src/share/service/emailRateLimiterService';

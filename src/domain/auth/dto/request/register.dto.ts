@@ -1,4 +1,11 @@
-import { IsEmail, IsNotEmpty, IsOptional, IsString } from 'class-validator';
+import {
+  IsEmail,
+  IsNotEmpty,
+  IsString,
+  Length,
+  Matches,
+} from 'class-validator';
+import { NAME_REGEX } from 'src/common';
 import { Email } from 'src/share/dto/value-object';
 
 export class RegisterDto {
@@ -6,22 +13,13 @@ export class RegisterDto {
   @IsNotEmpty()
   email: Email;
 
-  @IsNotEmpty()
-  username: string;
-
-  @IsNotEmpty()
-  password!: string;
-
-  @IsNotEmpty()
-  firstName: string;
-
-  @IsNotEmpty()
-  lastName: string;
-
-  @IsNotEmpty()
-  phoneNumber: string;
-
   @IsString()
-  @IsOptional()
-  dateOfBirth?: Date;
+  @IsNotEmpty()
+  @Length(3, 100, {
+    message: 'Name has to be between 3 and 50 characters.',
+  })
+  @Matches(NAME_REGEX, {
+    message: 'Name can only contain letters, dtos, numbers and spaces.',
+  })
+  username: string;
 }

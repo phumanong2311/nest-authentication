@@ -1,14 +1,20 @@
 import { Entity, ManyToOne, Property } from '@mikro-orm/core';
-import { IUserEntity } from '../../../domain/user/domain/interface-entities';
+import { IsString, Length, Matches } from 'class-validator';
+import { NAME_REGEX } from 'src/common';
 import { BaseEntity } from '../../../share/infra/entities';
 import { Role } from './role.entity';
 
 @Entity()
-export class User extends BaseEntity implements IUserEntity {
+export class User extends BaseEntity {
   @Property({ unique: true })
   email!: string;
 
   @Property({ unique: true })
+  @IsString()
+  @Length(3, 100)
+  @Matches(NAME_REGEX, {
+    message: 'Name must not have special characters',
+  })
   username!: string;
 
   @Property()
@@ -23,8 +29,8 @@ export class User extends BaseEntity implements IUserEntity {
   @Property()
   phoneNumber!: string;
 
-  @Property({ type: 'date', nullable: true })
-  dateOfBirth?: Date;
+  @Property({ nullable: true })
+  dateOfBirth?: number;
 
   @Property({ default: false })
   isActive: boolean = false;
@@ -51,7 +57,10 @@ export class User extends BaseEntity implements IUserEntity {
   authProviderToken?: string;
 
   @Property({ nullable: true })
-  createdBy?: number;
+  createdBy?: string;
+
+  @Property({ nullable: true })
+  updatedBy?: string;
 
   @ManyToOne(() => Role)
   role: Role;

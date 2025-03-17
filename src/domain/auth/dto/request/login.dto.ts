@@ -1,10 +1,10 @@
-import { IsEmail, IsNotEmpty } from "class-validator";
-import { Email } from "src/share/dto/value-object";
+import { IsNotEmpty, IsString, Length } from 'class-validator';
 
 export class LoginDto {
-  @IsEmail()
+  @IsString()
+  @Length(3, 255)
   @IsNotEmpty()
-  email: Email;
+  emailOrUsername: string;
 
   @IsNotEmpty()
   password: string;
