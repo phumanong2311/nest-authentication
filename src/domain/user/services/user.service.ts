@@ -6,6 +6,7 @@ import { Email } from 'src/share/dto/value-object';
 import { CreateUserDto, UpdateUserDto } from '../dto/request';
 import { User } from '../entities';
 import { IUserRepository } from '../interface-repository';
+import { DomainUserEntity } from '../domain-entities';
 
 @Injectable()
 export class UserService {
@@ -36,8 +37,8 @@ export class UserService {
     return await this.userRepository.getById(id);
   }
 
-  async getByEmail(email: Email): Promise<User> {
-    return await this.userRepository.getByEmail(email);
+  async getByEmail(emailOrUsername: string): Promise<DomainUserEntity> {
+    return await this.userRepository.getByEmail(emailOrUsername);
   }
 
   async create(data: CreateUserDto) {

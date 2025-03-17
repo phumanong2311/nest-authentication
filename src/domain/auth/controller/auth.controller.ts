@@ -13,6 +13,7 @@ import { UserService } from 'src/domain/user/services/user.service';
 import { CurrentUserParam } from 'src/share/decorators/current-user-param.decorator';
 import { AuthGuard, RedisGuard } from 'src/share/guards';
 import {
+  InviteUserDto,
   LoginDto,
   RegisterDto,
   ResendRegisterEmailDto,
@@ -20,7 +21,6 @@ import {
   VerifyInviteEmailDto,
   VerifyRegisterEmailDto,
 } from '../dto/request';
-import { InviteUserDto } from '../dto/request/invite.dto';
 import { AuthService } from '../service/auth.service';
 
 @Controller()
@@ -34,11 +34,11 @@ export class AuthController {
   @Post('login')
   async login(@Body() body: LoginDto, @Request() request: Request) {
     try {
-      const { email, password } = body;
-      const token = await this.authService.login(email, password);
+      const { emailOrUsername, password } = body;
+      const token = await this.authService.login(emailOrUsername, password);
       const clientIP = requestIp.getClientIp(request);
       const requestHeaders = await request.headers['user-agent'];
-      const user = await this.userService.getByEmail(email);
+      const user = await this.userService.getByEmail(emailOrUsername);
       if (token || requestHeaders || clientIP) {
         try {
           //logic create user info

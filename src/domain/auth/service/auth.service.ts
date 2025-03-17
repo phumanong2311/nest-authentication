@@ -20,17 +20,17 @@ export class AuthService {
     private readonly emailRateLimiterService: EmailRateLimiterService,
   ) {}
 
-  async login(email: Email, password: String) {
-    const user = await this.userService.getByEmail(email);
+  async login(emailOrUsername: string, password: string) {
+    const user = await this.userService.getByEmail(emailOrUsername);
     if (!user) {
       throw new Error('User not found');
     }
     if (user.password !== password) {
-      let storeRedis = await this.redisService.get(email.toString());
+      const storeRedis = await this.redisService.get(email.toString());
       if (storeRedis === null) {
         await this.redisService.set(email.toString(), '1', 'EX', 600);
       } else {
-        let attempts = parseInt(storeRedis);
+        const attempts = parseInt(storeRedis);
         if (isNaN(attempts)) {
           throw new Error('Invalid data in Redis');
         }
