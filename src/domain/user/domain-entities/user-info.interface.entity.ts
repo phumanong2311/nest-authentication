@@ -2,14 +2,22 @@ import { DomainBaseEntity } from 'src/share/entities';
 import { v4 as uuidv4 } from 'uuid';
 
 export class DomainUserInfoEntity extends DomainBaseEntity {
-  private userId: string;
-  private ipAddress?: string;
-  private browser?: string;
-  private operatingSystem?: string;
-  private version?: string;
-  private platform?: string;
-  private source?: string;
-  private deviceType?: string;
+  public userId: string;
+  public ipAddress?: string;
+  public browser?: string;
+  public operatingSystem?: string;
+  public version?: string;
+  public platform?: string;
+  public source?: string;
+  public deviceType?: string;
+  public firstName: string;
+  public lastName: string;
+  public phoneNumber: string;
+  public dateOfBirth?: number;
+  public isActive: boolean;
+  public isEmailVerified?: boolean;
+  public isPhoneVerified?: boolean;
+  public avatarUrl?: string;
 
   constructor(params: {
     id?: string;
@@ -25,6 +33,14 @@ export class DomainUserInfoEntity extends DomainBaseEntity {
     platform?: string;
     source?: string;
     deviceType?: string;
+    firstName: string;
+    lastName: string;
+    phoneNumber: string;
+    dateOfBirth?: number;
+    isActive: boolean;
+    isEmailVerified?: boolean;
+    isPhoneVerified?: boolean;
+    avatarUrl?: string;
   }) {
     super({
       id: params.id ?? uuidv4(),
@@ -41,55 +57,108 @@ export class DomainUserInfoEntity extends DomainBaseEntity {
     if (params.platform) this.platform = params.platform;
     if (params.source) this.source = params.source;
     if (params.deviceType) this.deviceType = params.deviceType;
+    if (params.firstName) this.firstName = params.firstName;
+    if (params.lastName) this.lastName = params.lastName;
+    if (params.phoneNumber) this.phoneNumber = params.phoneNumber;
+    if (params.dateOfBirth) this.dateOfBirth = params.dateOfBirth;
+    if (params.isActive) this.isActive = params.isActive;
+    if (params.isEmailVerified) this.isEmailVerified = params.isEmailVerified;
+    if (params.isPhoneVerified) this.isPhoneVerified = params.isPhoneVerified;
+    if (params.avatarUrl) this.avatarUrl = params.avatarUrl;
   }
 
-  setUserId(userId: string): void {
+  public setUserId(userId: string): void {
     this.userId = userId;
   }
-  setIpAddress(ipAddress: string): void {
+  public setIpAddress(ipAddress: string): void {
     this.ipAddress = ipAddress;
   }
-  setBrowser(browser: string): void {
+  public setBrowser(browser: string): void {
     this.browser = browser;
   }
-  setOperatingSystem(operatingSystem: string): void {
+  public setOperatingSystem(operatingSystem: string): void {
     this.operatingSystem = operatingSystem;
   }
-  setVersion(version: string): void {
+  public setVersion(version: string): void {
     this.version = version;
   }
-  setPlatform(platform: string): void {
+  public setPlatform(platform: string): void {
     this.platform = platform;
   }
-  setSource(source: string): void {
+  public setSource(source: string): void {
     this.source = source;
   }
-  setDeviceType(deviceType: string): void {
+  public setDeviceType(deviceType: string): void {
     this.deviceType = deviceType;
   }
+  public setFirstName(firstName: string): void {
+    this.firstName = firstName;
+  }
+  public setLastName(lastName: string): void {
+    this.lastName = lastName;
+  }
+  public setPhoneNumber(phoneNumber: string): void {
+    this.phoneNumber = phoneNumber;
+  }
+  public setDateOfBirth(dateOfBirth: number): void {
+    this.dateOfBirth = dateOfBirth;
+  }
+  public setIsActive(isActive: boolean): void {
+    this.isActive = isActive;
+  }
+  public setIsEmailVerified(isEmailVerified: boolean): void {
+    this.isEmailVerified = isEmailVerified;
+  }
+  public setIsPhoneVerified(isPhoneVerified: boolean): void {
+    this.isPhoneVerified = isPhoneVerified;
+  }
+  public setAvatarUrl(avatarUrl: string): void {
+    this.avatarUrl = avatarUrl;
+  }
 
-  getUserId(): string {
+  public getUserId(): string {
     return this.userId;
   }
-  getIpAddress(): string | undefined {
+  public getIpAddress(): string | undefined {
     return this.ipAddress;
   }
-  getBrowser(): string | undefined {
+  public getBrowser(): string | undefined {
     return this.browser;
   }
-  getOperatingSystem(): string | undefined {
+  public getOperatingSystem(): string | undefined {
     return this.operatingSystem;
   }
-  getVersion(): string | undefined {
+  public getVersion(): string | undefined {
     return this.version;
   }
-  getPlatform(): string | undefined {
+  public getPlatform(): string | undefined {
     return this.platform;
   }
-  getSource(): string | undefined {
+  public getSource(): string | undefined {
     return this.source;
   }
-  getDeviceType(): string | undefined {
+  public getDeviceType(): string | undefined {
     return this.deviceType;
+  }
+  public getName(): string {
+    return this.firstName + ' ' + this.lastName;
+  }
+  public getPhoneNumber(): string {
+    return this.phoneNumber;
+  }
+  public getDateOfBirth(): number {
+    return this.dateOfBirth;
+  }
+  public getIsActive(): boolean {
+    return this.isActive;
+  }
+  public getIsEmailVerified(): boolean {
+    return this.isEmailVerified;
+  }
+  public getIsPhoneVerified(): boolean {
+    return this.isPhoneVerified;
+  }
+  public getAvatarUrl(): string {
+    return this.avatarUrl;
   }
 }

@@ -1,21 +1,26 @@
 import { SqlEntityManager } from '@mikro-orm/postgresql';
 import { Injectable } from '@nestjs/common';
-import { User } from 'src/modules/user-management/domain/entities';
-import { IUserRepository } from 'src/modules/user-management/domain/interface-repository/user.repository.interface';
+import { IUserRepository } from 'src/domain/user/interface-repository';
 import { Email } from 'src/share/dto/value-object';
 import { BaseRepository } from './base.repository';
+import { DomainUserEntity } from 'src/domain/user/domain-entities';
+import { User } from '../entities';
 
 @Injectable()
 export class UserRepository
-  extends BaseRepository<User>
+  extends BaseRepository<DomainUserEntity>
   implements IUserRepository
 {
   constructor(em: SqlEntityManager) {
     super(em, User);
   }
 
-  async getByEmail(email: Email): Promise<User> {
+  async getByEmail(email: Email): Promise<DomainUserEntity> {
     return await this.findOneOrFail({ email });
+  }
+
+  async getByUserName(userName: string): Promise<User> {
+    return await this.findOneOrFail({ userName });
   }
 
   async getListPagination(orderBy?: any, limit?: number, offset?: number) {
@@ -27,8 +32,8 @@ export class UserRepository
   }
 
   async createUser(userData: Omit<User, 'id'>): Promise<User> {
-    const user = await this.createAndSave(userData)
-    return user
+    const user = await this.createAndSave(userData);
+    return user;
   }
 
   async updateUser(id: number, _entity: Omit<User, 'id'>): Promise<User> {
@@ -42,5 +47,5 @@ export class UserRepository
     } catch (error) {
       throw new Error(error);
     }
-  } 
+  }
 }

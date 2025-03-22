@@ -1,12 +1,12 @@
 import { QueryOrder } from '@mikro-orm/core';
-import { Inject, Injectable } from '@nestjs/common';
+import { BadRequestException, Inject, Injectable } from '@nestjs/common';
 import * as jwt from 'jsonwebtoken';
 import { config } from 'src/config';
-import { Email } from 'src/share/dto/value-object';
-import { CreateUserDto, UpdateUserDto } from '../dto/request';
-import { User } from '../entities';
-import { IUserRepository } from '../interface-repository';
 import { DomainUserEntity } from '../domain-entities';
+import { CreateUserDto, UpdateUserDto } from '../dto/request';
+import { IUserRepository } from '../interface-repository';
+import { isEmail } from 'class-validator';
+import { SLUG_REGEX } from 'src/common';
 
 @Injectable()
 export class UserService {
@@ -33,12 +33,38 @@ export class UserService {
     }
   }
 
+  private async userByEmailOrUsername(
+    emailOrUsername: string,
+  ): Promise<DomainUserEntity> {
+    if (emailOrUsername.includes('@')) {
+      if (!isEmail(emailOrUsername)) {
+        throw new BadRequestException('Invalid email');
+      }
+
+      return this.getByEmail(emailOrUsername);
+    }
+
+    if (
+      emailOrUsername.length < 3 ||
+      emailOrUsername.length > 106 ||
+      !SLUG_REGEX.test(emailOrUsername)
+    ) {
+      throw new BadRequestException('Invalid username');
+    }
+
+    return this.usersService.findOneByUsername(emailOrUsername, true);
+  }
+
   async getById(id: number): Promise<User> {
     return await this.userRepository.getById(id);
   }
 
-  async getByEmail(emailOrUsername: string): Promise<DomainUserEntity> {
-    return await this.userRepository.getByEmail(emailOrUsername);
+  async getByEmail(email: string): Promise<DomainUserEntity> {
+    return await this.userRepository.getByEmail(email);
+  }
+
+  async getByUserName(userName: string): Promise<DomainUserEntity> {
+    return await this.userRepository.getByUserName(userName);
   }
 
   async create(data: CreateUserDto) {

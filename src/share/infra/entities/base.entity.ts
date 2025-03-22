@@ -1,12 +1,18 @@
-import { PrimaryKey, Property } from "@mikro-orm/core";
+import { PrimaryKey, Property } from '@mikro-orm/core';
 
 export class BaseEntity {
   @PrimaryKey({ autoincrement: true })
-  id!: number;
+  public id!: string;
 
-  @Property({ nullable: true })
-  createdAt: Date = new Date();
+  @Property({ onCreate: () => new Date(), nullable: true })
+  public createdAt!: Date;
 
   @Property({ onUpdate: () => new Date(), nullable: true })
-  updatedAt: Date = new Date();
+  public updatedAt: Date;
+
+  @Property({ nullable: true })
+  public createdBy: string;
+
+  @Property({ nullable: true })
+  public updatedBy: string;
 }

@@ -1,10 +1,11 @@
 import { v4 as uuidv4 } from 'uuid';
-export abstract class DomainBaseEntity {
-  protected id!: string;
-  protected createdAt?: Date;
-  protected updatedAt?: Date;
-  protected createdBy?: string;
-  protected updatedBy?: string;
+import { IDomainBaseEntity } from './base-interface.entity';
+export abstract class DomainBaseEntity implements IDomainBaseEntity {
+  public id!: string;
+  public createdAt?: Date;
+  public updatedAt?: Date;
+  public createdBy?: string;
+  public updatedBy?: string;
   constructor(params: {
     id?: string;
     createdBy?: string;
@@ -13,8 +14,8 @@ export abstract class DomainBaseEntity {
     updatedAt: Date;
   }) {
     this.id = params.id ?? uuidv4();
-    this.createdAt = params.createdAt ?? new Date();
-    this.updatedAt = params.updatedAt ?? new Date();
+    this.createdAt = params.createdAt;
+    this.updatedAt = params.updatedAt;
     this.createdBy = params.createdBy;
     this.updatedBy = params.updatedBy;
   }

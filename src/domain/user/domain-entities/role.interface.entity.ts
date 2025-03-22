@@ -1,9 +1,11 @@
 import { DomainBaseEntity } from 'src/share/entities';
 import { v4 as uuidv4 } from 'uuid';
+import { IRole } from '../interface-entities';
 
-export class DomainRoleEntity extends DomainBaseEntity {
-  private role: string;
-  private scope?: string;
+export class DomainRoleEntity extends DomainBaseEntity implements IRole {
+  public role: string;
+  public scope?: string;
+  public userIds: string[];
 
   constructor(params: {
     id?: string;
@@ -13,6 +15,7 @@ export class DomainRoleEntity extends DomainBaseEntity {
     updatedAt?: Date;
     role: string;
     scope?: string;
+    userIds?: string[];
   }) {
     super({
       id: params.id ?? uuidv4(),
@@ -22,20 +25,33 @@ export class DomainRoleEntity extends DomainBaseEntity {
       updatedAt: params.updatedAt,
     });
     this.role = params.role;
-    if (params.scope) this.scope = params.scope;
+    this.scope = params.scope;
+    this.userIds = params.userIds ?? [];
   }
 
-  setRole(role: string): void {
+  public setRole(role: string): void {
     this.role = role;
   }
-  setScope(scope: string): void {
+
+  public setScope(scope: string): void {
     this.scope = scope;
   }
 
-  getRole(): string {
+  public addUser(userId: string): void {
+    if (!this.userIds.includes(userId)) {
+      this.userIds.push(userId);
+    }
+  }
+
+  public getRole(): string {
     return this.role;
   }
-  getScope(): string | undefined {
+
+  public getScope(): string | undefined {
     return this.scope;
+  }
+
+  public getUserIds(): string[] {
+    return this.userIds;
   }
 }

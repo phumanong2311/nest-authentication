@@ -1,7 +1,8 @@
-import { Entity, Property } from '@mikro-orm/core';
+import { Collection, Entity, ManyToMany, Property } from '@mikro-orm/core';
 import { IsEmail, IsString, Length, Matches } from 'class-validator';
 import { NAME_REGEX } from 'src/common';
 import { BaseEntity } from '../../../share/infra/entities';
+import { Role } from './role.entity';
 
 @Entity()
 export class User extends BaseEntity {
@@ -9,7 +10,7 @@ export class User extends BaseEntity {
   @IsString()
   @IsEmail()
   @Length(5, 255)
-  email!: string;
+  public email!: string;
 
   @Property({ unique: true })
   @IsString()
@@ -17,8 +18,11 @@ export class User extends BaseEntity {
   @Matches(NAME_REGEX, {
     message: 'Name must not have special characters',
   })
-  username!: string;
+  public username!: string;
 
   @Property()
-  password!: string;
+  public password!: string;
+
+  @ManyToMany(() => Role, (role) => role.userIds)
+  public roleIds = new Collection<Role>(this);
 }

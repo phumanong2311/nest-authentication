@@ -5,7 +5,7 @@ export interface IUserRepository {
   createUser(user: Omit<DomainUserEntity, 'id'>): Promise<DomainUserEntity>;
   getAll(): Promise<DomainUserEntity[]>;
   getById(id: number): Promise<DomainUserEntity>;
-  getByEmail(email: Email): Promise<DomainUserEntity>;
+  getByEmail(emailOrUsername: string): Promise<DomainUserEntity>;
   getListPagination(
     orderBy?: any,
     limit?: number,
